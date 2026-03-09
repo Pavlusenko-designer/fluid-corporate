@@ -6,6 +6,4 @@ export const singletonSchema = (type: string) => ({
 
 export const getDefaultLanguage = () => 'en';
 
-export const defaultLanguages = [
-  { id: 'en', title: 'English' },
-];
+export const defaultLanguages = [{ id: 'en', title: 'English' }];

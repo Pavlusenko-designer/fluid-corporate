@@ -3,9 +3,7 @@ export default function Home() {
     <main className="min-h-screen flex items-center justify-center">
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-4">Fluid Corporate</h1>
-        <p className="text-lg text-brand-600 mb-8">
-          Production-ready Next.js + Sanity monorepo
-        </p>
+        <p className="text-lg text-brand-600 mb-8">Production-ready Next.js + Sanity monorepo</p>
         <div className="space-y-4">
           <p>
             <a
