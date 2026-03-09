@@ -1,0 +1,8 @@
+{
+  "buildCommand": "cd ../.. && pnpm build --filter=@fluid-corporate/studio",
+  "outputDirectory": "apps/studio/.next",
+  "devCommand": "pnpm dev",
+  "installCommand": "pnpm install",
+  "framework": "nextjs",
+  "nodeVersion": "20.x"
+}

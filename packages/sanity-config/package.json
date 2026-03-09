@@ -1,0 +1,26 @@
+{
+  "name": "@sanity-lib/config",
+  "version": "0.1.0",
+  "private": true,
+  "main": "config.ts",
+  "types": "config.ts",
+  "scripts": {
+    "lint": "true",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "sanity": "^3.37.0",
+    "@sanity/structure": "^2.36.0",
+    "react": "^18.2.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "@types/react": "^18.2.46",
+    "typescript": "^5.3.3"
+  }
+}
