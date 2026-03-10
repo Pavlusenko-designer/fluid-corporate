@@ -1,6 +1,5 @@
 {
   "buildCommand": "pnpm --filter @fluid-corporate/web build",
   "devCommand": "pnpm dev",
-  "installCommand": "pnpm install --no-frozen-lockfile",
   "framework": "nextjs"
 }
