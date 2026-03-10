@@ -3,6 +3,5 @@
   "outputDirectory": "apps/web/.next",
   "devCommand": "pnpm dev",
   "installCommand": "pnpm install",
-  "framework": "nextjs",
-  "nodeVersion": "20.x"
+  "framework": "nextjs"
 }
