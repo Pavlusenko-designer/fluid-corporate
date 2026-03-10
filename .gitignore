@@ -22,12 +22,21 @@ dist/
 build/
 .turbo/
 .ultra.cache.json
+*.tsbuildinfo
 
 # Environment
 .env
 .env.local
 .env.*.local
-apps/*/env.local
+apps/*/.env.local
+
+# Local tooling caches
+.pnpm-store/
+
+# Local scratch/reference files
+tmp-lovable*
+apps/studio/tmp-test-image.png
+apps/studio/.generated-images/
 
 # IDE
 .vscode/

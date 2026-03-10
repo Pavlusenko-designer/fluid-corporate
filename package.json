@@ -10,7 +10,14 @@
     "lint": "turbo run lint",
     "format": "turbo run format",
     "type-check": "turbo run type-check",
-    "clean": "turbo run clean && rm -rf node_modules dist .turbo"
+    "clean": "turbo run clean && rm -rf node_modules dist .turbo",
+    "docker:up": "docker compose up --build",
+    "docker:down": "docker compose down",
+    "docker:clean": "docker compose down -v",
+    "docker:logs:web": "docker compose logs -f web",
+    "docker:logs:studio": "docker compose logs -f studio",
+    "docker:restart:web": "docker compose restart web",
+    "docker:restart:studio": "docker compose restart studio"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.0.0",

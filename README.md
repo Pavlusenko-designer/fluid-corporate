@@ -49,6 +49,7 @@ fluid-corporate/
 
 - **Node.js** 18+ 
 - **pnpm** 9+
+- **Docker Desktop** (optional, recommended on Windows for stable local dev)
 
 ```bash
 npm install -g pnpm@9
@@ -93,6 +94,50 @@ pnpm dev
 This will start:
 - **Web App**: http://localhost:3000
 - **Sanity Studio**: http://localhost:3001
+
+### Containerized Development (Recommended)
+
+Run both `web` and `studio` in Docker (as separate services):
+
+```bash
+pnpm docker:up
+```
+
+Or directly:
+
+```bash
+docker compose up --build
+```
+
+This starts:
+- **Web App**: http://localhost:3000
+- **Sanity Studio**: http://localhost:3001 (also available at `/studio`)
+
+Service-specific logs:
+
+```bash
+pnpm docker:logs:web
+pnpm docker:logs:studio
+```
+
+Service-specific restart:
+
+```bash
+pnpm docker:restart:web
+pnpm docker:restart:studio
+```
+
+Stop containers:
+
+```bash
+pnpm docker:down
+```
+
+Clean containers and volumes:
+
+```bash
+pnpm docker:clean
+```
 
 ### Building
 

@@ -1,23 +1,41 @@
-export default function Home() {
+import { client } from '@sanity-lib/client';
+import { homepageQuery } from '@sanity-lib/groq';
+import AboutSection from '../components/AboutSection';
+import ContactSection from '../components/ContactSection';
+import HeroSection from '../components/HeroSection';
+import ProjectsSection from '../components/ProjectsSection';
+import ServicesSection from '../components/ServicesSection';
+import TestimonialsSection from '../components/TestimonialsSection';
+import type { HomepageData } from '../components/homepage-types';
+
+export const revalidate = 30;
+
+async function getHomepageData(): Promise<HomepageData | null> {
+  try {
+    const data = await client.fetch<HomepageData | null>(
+      `*[_type == "homepage"][0]${homepageQuery}`,
+      {},
+      { next: { revalidate } },
+    );
+
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch homepage data from Sanity:', error);
+    return null;
+  }
+}
+
+export default async function Home() {
+  const data = await getHomepageData();
+
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Fluid Corporate</h1>
-        <p className="text-lg text-brand-600 mb-8">Production-ready Next.js + Sanity monorepo</p>
-        <div className="space-y-4">
-          <p>
-            <a
-              href="http://localhost:3001"
-              className="text-brand-600 hover:text-brand-700 underline"
-            >
-              → Sanity Studio
-            </a>
-          </p>
-          <p className="text-sm text-brand-500">
-            Configure your Sanity project in .env.local to get started
-          </p>
-        </div>
-      </div>
+    <main className="bg-[var(--sand-50)]">
+      <HeroSection data={data?.hero || {}} />
+      <ServicesSection data={data?.services || {}} />
+      <AboutSection data={data?.about || {}} />
+      <ProjectsSection data={data?.projects || {}} />
+      <TestimonialsSection data={data?.testimonials || {}} />
+      <ContactSection data={data?.contact || {}} />
     </main>
   );
 }

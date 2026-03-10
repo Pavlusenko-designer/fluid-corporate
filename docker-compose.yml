@@ -1,0 +1,43 @@
+x-common: &common
+  build:
+    context: .
+    dockerfile: Dockerfile.dev
+  working_dir: /workspace
+  env_file:
+    - .env.local
+  environment:
+    CHOKIDAR_USEPOLLING: "true"
+    WATCHPACK_POLLING: "true"
+    NEXT_TELEMETRY_DISABLED: "1"
+    TURBO_TELEMETRY_DISABLED: "1"
+    HOSTNAME: "0.0.0.0"
+  volumes:
+    - .:/workspace
+    - node_modules:/workspace/node_modules
+    - pnpm_store:/pnpm/store
+    - turbo_cache:/workspace/.turbo
+    - web_next_cache:/workspace/apps/web/.next
+    - studio_next_cache:/workspace/apps/studio/.next
+  restart: unless-stopped
+
+services:
+  web:
+    <<: *common
+    container_name: fluid-corporate-web
+    command: sh -lc "pnpm install --frozen-lockfile && find apps/web/.next -mindepth 1 -maxdepth 1 -exec rm -rf {} + || true && pnpm --filter @fluid-corporate/web dev"
+    ports:
+      - "3000:3000"
+
+  studio:
+    <<: *common
+    container_name: fluid-corporate-studio
+    command: sh -lc "pnpm install --frozen-lockfile && find apps/studio/.next -mindepth 1 -maxdepth 1 -exec rm -rf {} + || true && pnpm --filter @fluid-corporate/studio dev"
+    ports:
+      - "3001:3001"
+
+volumes:
+  node_modules:
+  pnpm_store:
+  turbo_cache:
+  web_next_cache:
+  studio_next_cache:

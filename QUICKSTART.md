@@ -5,6 +5,7 @@
 ### Prerequisites
 - Node.js 18+
 - pnpm 9+ (installed globally)
+- Docker Desktop (optional, recommended on Windows)
 
 ### 1. Install Dependencies
 ```bash
@@ -30,6 +31,25 @@ pnpm dev
 This starts:
 - **Web**: http://localhost:3000 (your site)
 - **CMS**: http://localhost:3001 (content editor)
+
+### Docker Alternative (Recommended for Stable Local Dev)
+
+```bash
+pnpm docker:up
+```
+
+This starts separate Docker services for `web` and `studio`:
+- **Web**: http://localhost:3000
+- **CMS**: http://localhost:3001 (also `/studio`)
+
+Useful Docker debug commands:
+
+```bash
+pnpm docker:logs:web
+pnpm docker:logs:studio
+pnpm docker:restart:web
+pnpm docker:restart:studio
+```
 
 ### 4. Create Your First Page
 1. Go to http://localhost:3001

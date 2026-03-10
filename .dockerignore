@@ -1,0 +1,14 @@
+.git
+.github
+.vscode
+node_modules
+**/node_modules
+.next
+**/.next
+dist
+**/dist
+.turbo
+tmp-lovable.*
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
