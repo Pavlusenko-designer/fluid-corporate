@@ -44,7 +44,7 @@ function ProjectCard({ item, index, featured = false }: { item: ReviveProjectIte
         setHovered(false);
         hoverVideoControl(videoRef.current, false);
       }}
-      className={`group revive-hover-lift revive-diagonal-frame relative overflow-hidden border border-white/15 ${
+      className={`group revive-diagonal-frame relative overflow-hidden ${
         featured ? 'min-h-[420px] lg:min-h-[580px] lg:col-span-2' : 'min-h-[280px]'
       }`}
     >
@@ -94,7 +94,7 @@ function TeamCard({ member, index }: { member: ReviveMemberItem; index: number }
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.65, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -8, transition: { duration: 0.42, delay: 0, ease: [0.22, 1, 0.36, 1] } }}
-      className="group revive-hover-lift relative"
+      className="group relative"
       onMouseEnter={() => {
         setHovered(true);
         hoverVideoControl(videoRef.current, true);
@@ -127,7 +127,6 @@ function TeamCard({ member, index }: { member: ReviveMemberItem; index: number }
         )}
         <div className="revive-diagonal-mask absolute inset-0" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,18,25,0.05),rgba(10,18,25,0.72))] transition-opacity duration-500 group-hover:opacity-0" />
-        <div className="revive-diagonal-stroke absolute inset-0" />
       </div>
       <div className="mt-4">
         <div className="text-[11px] uppercase tracking-[0.18em] text-[#d7ba7c] transition-all duration-500 group-hover:translate-x-1 group-hover:text-[#efd9ad]">
@@ -146,18 +145,15 @@ function CursorTrail() {
   const cursorY = useMotionValue(-120);
   const [enabled, setEnabled] = useState(false);
   const [active, setActive] = useState(false);
+  const [interactive, setInteractive] = useState(false);
 
-  const trailA = {
-    x: useSpring(cursorX, { stiffness: 360, damping: 36, mass: 0.24 }),
-    y: useSpring(cursorY, { stiffness: 360, damping: 36, mass: 0.24 }),
+  const dot = {
+    x: useSpring(cursorX, { stiffness: 480, damping: 42, mass: 0.16 }),
+    y: useSpring(cursorY, { stiffness: 480, damping: 42, mass: 0.16 }),
   };
-  const trailB = {
-    x: useSpring(cursorX, { stiffness: 260, damping: 32, mass: 0.36 }),
-    y: useSpring(cursorY, { stiffness: 260, damping: 32, mass: 0.36 }),
-  };
-  const trailC = {
-    x: useSpring(cursorX, { stiffness: 180, damping: 28, mass: 0.48 }),
-    y: useSpring(cursorY, { stiffness: 180, damping: 28, mass: 0.48 }),
+  const ring = {
+    x: useSpring(cursorX, { stiffness: 280, damping: 34, mass: 0.3 }),
+    y: useSpring(cursorY, { stiffness: 280, damping: 34, mass: 0.3 }),
   };
 
   useEffect(() => {
@@ -173,8 +169,16 @@ function CursorTrail() {
       cursorX.set(event.clientX);
       cursorY.set(event.clientY);
       setActive(true);
+      if (event.target instanceof Element) {
+        setInteractive(Boolean(event.target.closest('a,button,[role="button"],input,textarea,select,label,[data-cursor="interactive"]')));
+      } else {
+        setInteractive(false);
+      }
     };
-    const onLeave = () => setActive(false);
+    const onLeave = () => {
+      setActive(false);
+      setInteractive(false);
+    };
 
     media.addEventListener('change', sync);
     window.addEventListener('pointermove', onMove, { passive: true });
@@ -194,22 +198,16 @@ function CursorTrail() {
   return (
     <div className="pointer-events-none fixed inset-0 z-[90] hidden lg:block">
       <motion.span
-        style={{ x: trailC.x, y: trailC.y }}
-        animate={{ opacity: active ? 0.22 : 0 }}
-        transition={{ duration: 0.4 }}
-        className="absolute -ml-6 -mt-6 h-12 w-12 rounded-full bg-[#d7ba7c]"
-      />
-      <motion.span
-        style={{ x: trailB.x, y: trailB.y }}
-        animate={{ opacity: active ? 0.35 : 0 }}
-        transition={{ duration: 0.32 }}
+        style={{ x: ring.x, y: ring.y }}
+        animate={{ opacity: active ? 0.48 : 0, scale: interactive ? 1.34 : 1 }}
+        transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
         className="absolute -ml-4 -mt-4 h-8 w-8 rounded-full border border-[#d7ba7c]/70"
       />
       <motion.span
-        style={{ x: trailA.x, y: trailA.y }}
-        animate={{ opacity: active ? 0.95 : 0 }}
-        transition={{ duration: 0.24 }}
-        className="absolute -ml-1.5 -mt-1.5 h-3 w-3 rounded-full bg-[#d7ba7c] shadow-[0_0_18px_rgba(215,186,124,0.7)]"
+        style={{ x: dot.x, y: dot.y }}
+        animate={{ opacity: active ? 0.95 : 0, scale: interactive ? 0.76 : 1 }}
+        transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute -ml-[2px] -mt-[2px] h-1 w-1 rounded-full bg-[#d7ba7c]"
       />
     </div>
   );
@@ -497,9 +495,37 @@ export default function ReviveShowcasePage({ data }: ReviveShowcasePageProps) {
   }, [timeline.length]);
 
   return (
-    <main ref={pageRef} className="bg-[#0b1722] text-white">
+    <main ref={pageRef} className="revive-custom-cursor bg-[#0b1722] text-white">
       <CursorTrail />
-      <section className="relative flex min-h-[80vh] items-center overflow-hidden px-4 py-16 lg:px-8">
+      <nav className="fixed inset-x-0 top-0 z-[80] border-b border-white/10 bg-[#08131dcf] backdrop-blur-md">
+        <div className="mx-auto flex w-full max-w-[1360px] items-center gap-4 px-4 py-3 lg:px-8">
+          <a href="#revive-home" className="revive-focus-ring text-xs font-semibold uppercase tracking-[0.2em] text-[#d7ba7c] transition-colors hover:text-[#ecd7ab]">
+            Al Rawaf
+          </a>
+          <div className="flex flex-1 items-center gap-1 overflow-x-auto text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
+            <a href="#revive-expertise" className="revive-focus-ring shrink-0 rounded px-3 py-2 transition-colors hover:text-white">
+              Expertise
+            </a>
+            <a href="#revive-journey" className="revive-focus-ring shrink-0 rounded px-3 py-2 transition-colors hover:text-white">
+              Journey
+            </a>
+            <a href="#revive-projects" className="revive-focus-ring shrink-0 rounded px-3 py-2 transition-colors hover:text-white">
+              Projects
+            </a>
+            <a href="#revive-team" className="revive-focus-ring shrink-0 rounded px-3 py-2 transition-colors hover:text-white">
+              Team
+            </a>
+            <a href="#revive-media" className="revive-focus-ring shrink-0 rounded px-3 py-2 transition-colors hover:text-white">
+              Media
+            </a>
+          </div>
+          <a href="#revive-contact" className="revive-ghost-cta revive-focus-ring shrink-0 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em]">
+            Contact Us
+          </a>
+        </div>
+      </nav>
+
+      <section id="revive-home" className="relative flex min-h-[80vh] items-center overflow-hidden px-4 pb-16 pt-32 lg:px-8">
         {data.heroImageUrl && (
           <motion.img
             style={{ y: heroImageY }}
@@ -546,7 +572,7 @@ export default function ReviveShowcasePage({ data }: ReviveShowcasePageProps) {
         </motion.div>
       </section>
 
-      <section ref={expertiseSectionRef} className="relative px-4 py-20 lg:px-8">
+      <section id="revive-expertise" ref={expertiseSectionRef} className="relative px-4 py-20 lg:px-8">
         <div className="revive-section-cut pointer-events-none absolute inset-x-0 top-0 h-16" />
         <div className="mx-auto grid max-w-[1360px] gap-10 lg:grid-cols-12">
           <div className="lg:col-span-6">
@@ -608,7 +634,7 @@ export default function ReviveShowcasePage({ data }: ReviveShowcasePageProps) {
             </div>
           </div>
           <div className="relative lg:col-span-6 lg:self-stretch">
-            <div ref={expertiseMediaRef} className="revive-diagonal-frame relative h-full min-h-[360px] overflow-hidden border border-white/15 lg:min-h-0">
+            <div ref={expertiseMediaRef} className="revive-diagonal-frame relative h-full min-h-[360px] overflow-hidden lg:min-h-0">
               <motion.div style={{ y: expertiseMediaY }} className="absolute inset-0">
                 <AnimatePresence mode="sync" initial={false}>
                   {expertisePreview?.imageUrl && (
@@ -650,7 +676,7 @@ export default function ReviveShowcasePage({ data }: ReviveShowcasePageProps) {
         </div>
       </section>
 
-      <section ref={journeySectionRef} className="relative bg-[#09131d] px-4 py-20 lg:px-8">
+      <section id="revive-journey" ref={journeySectionRef} className="relative bg-[#09131d] px-4 py-20 lg:px-8">
         <div className="revive-section-cut pointer-events-none absolute inset-x-0 top-0 h-20 opacity-60" />
         <div className="mx-auto grid max-w-[1360px] gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
@@ -747,7 +773,7 @@ export default function ReviveShowcasePage({ data }: ReviveShowcasePageProps) {
         </div>
       </section>
 
-      <section className="relative bg-[#09131d] px-4 py-20 lg:px-8">
+      <section id="revive-team" className="relative bg-[#09131d] px-4 py-20 lg:px-8">
         <div className="revive-section-cut pointer-events-none absolute inset-x-0 top-0 h-20 opacity-60" />
         <div className="mx-auto max-w-[1360px]">
           <div className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -807,7 +833,7 @@ export default function ReviveShowcasePage({ data }: ReviveShowcasePageProps) {
         </div>
       </section>
 
-      <section className="relative px-4 py-20 lg:px-8">
+      <section id="revive-media" className="relative px-4 py-20 lg:px-8">
         <div className="revive-section-cut pointer-events-none absolute inset-x-0 top-0 h-20 opacity-40" />
         <div className="mx-auto grid max-w-[1360px] gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">

@@ -36,6 +36,23 @@ body {
   font-family: var(--font-display), sans-serif;
 }
 
+@media (pointer: fine) {
+  .revive-custom-cursor,
+  .revive-custom-cursor a,
+  .revive-custom-cursor button,
+  .revive-custom-cursor [role='button'],
+  .revive-custom-cursor label,
+  .revive-custom-cursor select {
+    cursor: none !important;
+  }
+
+  .revive-custom-cursor input,
+  .revive-custom-cursor textarea,
+  .revive-custom-cursor [contenteditable='true'] {
+    cursor: text;
+  }
+}
+
 .home-diagonal-grid {
   background-image: linear-gradient(146deg, rgba(15, 39, 56, 0.08) 1px, transparent 1px),
     linear-gradient(-146deg, rgba(15, 39, 56, 0.08) 1px, transparent 1px);
@@ -118,13 +135,6 @@ body {
 
 .revive-diagonal-frame {
   clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
-}
-
-.revive-diagonal-stroke {
-  pointer-events: none;
-  z-index: 5;
-  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.34);
 }
 
 .revive-diagonal-mask {
