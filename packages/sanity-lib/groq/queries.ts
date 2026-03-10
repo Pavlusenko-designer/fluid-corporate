@@ -96,6 +96,8 @@ export const revivePageQuery = `
   {
     "title": title,
     "heroBadge": heroBadge,
+    "heroImageUrl": heroImage.asset->url,
+    "heroImageAlt": heroImageAlt,
     "heroTitle": coalesce(pt::text(heroTitleRich), heroTitle),
     "heroSubtitle": coalesce(pt::text(heroSubtitleRich), heroSubtitle),
     "heroTagline": coalesce(pt::text(heroTaglineRich), heroTagline),

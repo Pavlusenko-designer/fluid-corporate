@@ -24,14 +24,16 @@ services:
   web:
     <<: *common
     container_name: fluid-corporate-web
-    command: sh -lc "pnpm install --frozen-lockfile && find apps/web/.next -mindepth 1 -maxdepth 1 -exec rm -rf {} + || true && pnpm --filter @fluid-corporate/web dev"
+    command: sh -lc "rm -f /workspace/.deps-ready && pnpm install --frozen-lockfile && touch /workspace/.deps-ready && (find apps/web/.next -mindepth 1 -maxdepth 1 -exec rm -rf {} + || true) && pnpm --filter @fluid-corporate/web dev"
     ports:
       - "3000:3000"
 
   studio:
     <<: *common
     container_name: fluid-corporate-studio
-    command: sh -lc "pnpm install --frozen-lockfile && find apps/studio/.next -mindepth 1 -maxdepth 1 -exec rm -rf {} + || true && pnpm --filter @fluid-corporate/studio dev"
+    depends_on:
+      - web
+    command: sh -lc "until [ -f /workspace/.deps-ready ] && [ -f /workspace/apps/studio/node_modules/.bin/next ]; do echo 'Waiting for dependency install...'; sleep 2; done; (find apps/studio/.next -mindepth 1 -maxdepth 1 -exec rm -rf {} + || true) && pnpm --filter @fluid-corporate/studio dev"
     ports:
       - "3001:3001"
 

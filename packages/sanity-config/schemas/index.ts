@@ -619,6 +619,14 @@ export const revivePageType = {
       validation: (Rule: any) => Rule.required(),
     },
     { name: 'heroBadge', title: 'Hero Badge', type: 'string' },
+    {
+      name: 'heroImage',
+      title: 'Hero Image',
+      type: 'image',
+      description: 'Optional background image for the revive hero section.',
+      options: { hotspot: true },
+    },
+    { name: 'heroImageAlt', title: 'Hero Image Alt Text', type: 'string' },
     { name: 'heroTitle', title: 'Hero Title', type: 'text' },
     {
       name: 'heroTitleRich',

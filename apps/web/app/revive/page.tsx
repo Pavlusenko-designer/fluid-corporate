@@ -8,6 +8,8 @@ export const revalidate = 30;
 const fallbackReviveData: RevivePageData = {
   title: 'Al Rawaf Revive Showcase',
   heroBadge: '* Al Rawaf Contracting - Est. 1996',
+  heroImageUrl: '/assets/hero-construction-DRSryszf.jpg',
+  heroImageAlt: 'Al Rawaf infrastructure hero background',
   heroTitle: 'Infrastructure, construction, water & energy solutions across Saudi Arabia - empowering Vision 2030.',
   heroSubtitle: 'Transforming the contracting sector from randomness to professional institutional excellence.',
   heroTagline: 'Building distinguished long-term relationships with partners based on ethical and professional standards.',

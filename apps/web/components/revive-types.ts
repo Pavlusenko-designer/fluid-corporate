@@ -35,6 +35,8 @@ export interface ReviveMediaItem {
 export interface RevivePageData {
   title?: string;
   heroBadge?: string;
+  heroImageUrl?: string;
+  heroImageAlt?: string;
   heroTitle?: string;
   heroSubtitle?: string;
   heroTagline?: string;
