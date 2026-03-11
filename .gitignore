@@ -47,3 +47,4 @@ apps/studio/.generated-images/
 
 # OS
 Thumbs.db
+.vercel
