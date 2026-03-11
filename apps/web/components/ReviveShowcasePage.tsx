@@ -499,8 +499,16 @@ export default function ReviveShowcasePage({ data }: ReviveShowcasePageProps) {
       <CursorTrail />
       <nav className="fixed inset-x-0 top-0 z-[80] border-b border-white/10 bg-[#08131dcf] backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-[1360px] items-center gap-4 px-4 py-3 lg:px-8">
-          <a href="#revive-home" className="revive-focus-ring text-xs font-semibold uppercase tracking-[0.2em] text-[#d7ba7c] transition-colors hover:text-[#ecd7ab]">
-            Al Rawaf
+          <a
+            href="#revive-home"
+            className="revive-focus-ring inline-flex shrink-0 items-center rounded-sm px-1 py-1 transition-opacity hover:opacity-90"
+            aria-label="Al Rawaf home"
+          >
+            <img
+              src="/assets/alrawaf-logo-SBD3xtfW.webp"
+              alt="Al Rawaf Contracting"
+              className="h-9 w-auto max-w-[170px] object-contain sm:h-10 sm:max-w-[190px] lg:h-11 lg:max-w-[220px]"
+            />
           </a>
           <div className="flex flex-1 items-center gap-1 overflow-x-auto text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
             <a href="#revive-expertise" className="revive-focus-ring shrink-0 rounded px-3 py-2 transition-colors hover:text-white">
